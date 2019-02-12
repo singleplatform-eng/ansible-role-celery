@@ -1,14 +1,21 @@
 ---
-- name: "start celery service"
+- name: "start celery services"
   systemd:
     name: "{{item.name}}.service"
     state: started
     daemon_reload: yes
   with_items: "{{celery_services}}"
 
-- name: "restart celery service"
+- name: "restart celery services"
   systemd:
     name: "{{item.name}}.service"
     state: restarted
+    daemon_reload: yes
+  with_items: "{{celery_services}}"
+
+- name: "stop celery services"
+  systemd:
+    name: "{{item.name}}.service"
+    state: stopped
     daemon_reload: yes
   with_items: "{{celery_services}}"
