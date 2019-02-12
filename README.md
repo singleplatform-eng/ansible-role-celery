@@ -34,27 +34,29 @@ This role assumes that the celery binary is installed into the local python virt
 Example Playbook
 ----------------
 
-  - hosts: localhost
-    vars:
-      python_virtualenv: /srv/python2.7
-      celery_working_dir: /srv/django
-      celery_app: django
-      celery_user: celery
-      celery_services: 
-        - name: celeryd
-          environment:
-            CELERYD_LOG_FILE: "/var/log/celery/%n%I.log"
-            CELERYD_PID_FILE: "/var/run/celery/%n.pid"
-            CELERY_APP: "{{celery_app}}"
-            CELERY_BIN: "{{celery_bin}}"
-        - name: celery_beat
-          environment:
-            CELERYD_LOG_FILE: "/var/log/celery/%n%I.log"
-            CELERYD_PID_FILE: "/var/run/celery/%n.pid"
-            CELERY_APP: "{{celery_app}}"
-            CELERY_BIN: "{{celery_bin}}"
-            SINGLE_BEAT_IDENTIFIER: celery-beat
-            SINGLE_BEAT_LOCK_TIME: 300
+An example of how to use the role
+
+    - hosts: localhost
+      vars:
+        python_virtualenv: /srv/python2.7
+        celery_working_dir: /srv/django
+        celery_app: django
+        celery_user: celery
+        celery_services:
+          - name: celeryd
+            environment:
+              CELERYD_LOG_FILE: "/var/log/celery/%n%I.log"
+              CELERYD_PID_FILE: "/var/run/celery/%n.pid"
+              CELERY_APP: "{{celery_app}}"
+              CELERY_BIN: "{{celery_bin}}"
+          - name: celery_beat
+            environment:
+              CELERYD_LOG_FILE: "/var/log/celery/%n%I.log"
+              CELERYD_PID_FILE: "/var/run/celery/%n.pid"
+              CELERY_APP: "{{celery_app}}"
+              CELERY_BIN: "{{celery_bin}}"
+              SINGLE_BEAT_IDENTIFIER: celery-beat
+              SINGLE_BEAT_LOCK_TIME: 300
     role:
       - { role: ansible-role-celery }
 
