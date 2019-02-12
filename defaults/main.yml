@@ -1,0 +1,6 @@
+celery_install: True
+
+celery_env_dir: /etc/celery.d
+celery_log_dir: /var/log/celery
+celery_run_dir: /var/run/celery
+celery_bin: "{{python_virtualenv}}/bin/celery"

@@ -1,0 +1,24 @@
+---
+- name: Ensure Celery Env Dir exists
+  file:
+    path: "{{celery_env_dir}}"
+    state: directory
+    owner: "{{app_user}}"
+    group: "{{app_user}}"
+    mode: 0755
+
+- name: Ensure Celery Log Dir exists
+  file:
+    path: "{{celery_log_dir}}"
+    state: directory
+    owner: "{{app_user}}"
+    group: "{{app_user}}"
+    mode: 0755
+
+- name: Ensure Celery Run Dir exists
+  file:
+    path: "{{celery_run_dir}}"
+    state: directory
+    owner: "{{app_user}}"
+    group: "{{app_user}}"
+    mode: 0755

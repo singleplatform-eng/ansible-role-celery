@@ -1,0 +1,9 @@
+---
+- name: Manage Directories
+  include_tasks: manage_paths.yml
+
+- name: Manage Config Files
+  include_tasks: manage_configs.yml
+
+- name: Manage systemd Service Units
+  include_tasks: manage_service_units.yml
