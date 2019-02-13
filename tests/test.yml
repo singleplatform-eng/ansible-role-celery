@@ -1,0 +1,67 @@
+---
+
+- hosts: localhost
+  remote_user: root
+  tasks:
+    - name: group
+      group:
+        name: celery
+        gid: 10000
+    - name: user
+      user:
+        name: celery
+        group: celery
+        password: !
+        home: /home/celery
+        create_home: yes
+
+    - name: Install Redis-server
+      package:
+        name: redis-server
+        update_cache: yes
+
+    - name: Install celery
+      pip: 
+        name: celery
+
+    - name: Configure Redis
+      template:
+        src: files/redis.conf
+        dest: "/etc/redis/redis.conf"
+        mode: 0644
+
+    - name: Start Redis
+      service: "name=redis-server state=started"
+
+    - name: add celery tasks.py
+      template:
+        src: files/tasks.py
+        dest: /srv/
+        owner: celery
+        group: celery
+        mode: 0755
+
+- hosts: localhost
+  remote_user: root
+  roles:
+    - { role: role_under_test, celery_working_dir: /srv, celery_app: tasks, celery_user: celery, celery_services: [{name: celeryd, environment: "{{celeryd_default_env}}"}]}
+
+  tasks:
+    - name: Test service handlers
+      block:
+        - name: start
+          command: echo starting celery
+          notify: start celery services
+
+        - meta: flush_handlers
+
+        - name: restart
+          command: echo restarting celery
+          notify: restart celery services
+
+        - meta: flush_handlers
+
+        - name: stop
+          command: echo stopping celery
+          notify: stop celery services
+      when: test_handlers is defined

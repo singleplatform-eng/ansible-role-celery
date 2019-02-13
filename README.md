@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/singleplatform-eng/ansible-role-celery.svg?branch=master)](https://travis-ci.org/singleplatform-eng/ansible-role-celery)
 Ansible-Role-Celery
 =========
 
@@ -15,7 +16,7 @@ Defaults
 celery_env_dir: /etc/celery.d
 celery_log_dir: /var/log/celery
 celery_run_dir: /var/run/celery
-celery_bin: "{{python_virtualenv}}/bin/celery"
+celery_bin: "/usr/local/bin/celery"
 ```
 Required Vars
 ```
@@ -27,9 +28,7 @@ celery_services
 Dependencies
 ------------
 Python
-Python VirtualEnv
-
-This role assumes that the celery binary is installed into the local python virtualenv's bin directory. The default value of celery_bin requires that the ansible variable "{{python_virtualenv}}" be defined.
+Message Broker - the tests in this role use a local instance of redis-server
 
 Example Playbook
 ----------------
