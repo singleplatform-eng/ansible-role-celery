@@ -27,7 +27,8 @@ celery_services
 ```
 Dependencies
 ------------
-Python
+Python2.7+
+
 Message Broker - the tests in this role use a local instance of redis-server
 
 Example Playbook
