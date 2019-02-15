@@ -4,3 +4,10 @@
 {{k}}='{{v}}'
 {% endif %}
 {% endfor %}
+{% if item.opts is defined %}
+{% for k, v in item.opts.items()|sort %}
+{% if '__omit_place_holder__' not in v|string %}
+{{k}}='{{v}}'
+{% endif %}
+{% endfor %}
+{% endif %}}
