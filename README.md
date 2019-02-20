@@ -25,6 +25,8 @@ celery_app
 celery_user
 celery_services
 ```
+celery_services should be a dict that contains the name of the service and any environment variables necessary in addition to {{celeryd_default_env}}. The template merges the two dictionaries if additional environment variables are defined.
+
 Dependencies
 ------------
 Python2.7+
@@ -44,17 +46,8 @@ An example of how to use the role
         celery_user: celery
         celery_services:
           - name: celeryd
-            environment:
-              CELERYD_LOG_FILE: "/var/log/celery/%n%I.log"
-              CELERYD_PID_FILE: "/var/run/celery/%n.pid"
-              CELERY_APP: "{{celery_app}}"
-              CELERY_BIN: "{{celery_bin}}"
           - name: celery_beat
             environment:
-              CELERYD_LOG_FILE: "/var/log/celery/%n%I.log"
-              CELERYD_PID_FILE: "/var/run/celery/%n.pid"
-              CELERY_APP: "{{celery_app}}"
-              CELERY_BIN: "{{celery_bin}}"
               SINGLE_BEAT_IDENTIFIER: celery-beat
               SINGLE_BEAT_LOCK_TIME: 300
     role:
