@@ -1,10 +1,4 @@
 {{ansible_managed}}
-{% if item.environment is defined %}
-{% for k, v in (celeryd_default_env|combine(item.environment)).items()|sort %}
+{% for k, v in (celeryd_default_env|combine(item.environment|default({}))).items()|sort %}
 {{k}}='{{v}}'
 {% endfor %}
-{% else %}
-{% for k, v in celeryd_default_env.items()|sort %}
-{{k}}='{{v}}'
-{% endfor %}
-{% endif %}
