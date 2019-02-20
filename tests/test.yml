@@ -44,7 +44,7 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - { role: role_under_test, celery_working_dir: /srv, celery_app: tasks, celery_user: celery, celery_services: [{name: celeryd, environment: "{{celeryd_default_env}}"}]}
+    - { role: role_under_test, celery_working_dir: /srv, celery_app: tasks, celery_user: celery, celery_services: [{name: celeryd}]}
 
   tasks:
     - name: Test service handlers

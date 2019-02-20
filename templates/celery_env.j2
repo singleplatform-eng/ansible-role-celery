@@ -1,13 +1,10 @@
 {{ansible_managed}}
-{% for k, v in item.environment.items()|sort %}
-{% if '__omit_place_holder__' not in v|string %}
+{% if item.environment is defined %}
+{% for k, v in (celeryd_default_env|combine(item.environment)).items()|sort %}
 {{k}}='{{v}}'
-{% endif %}
 {% endfor %}
-{% if item.opts is defined %}
-{% for k, v in item.opts.items()|sort %}
-{% if '__omit_place_holder__' not in v|string %}
+{% else %}
+{% for k, v in celeryd_default_env.items()|sort %}
 {{k}}='{{v}}'
-{% endif %}
 {% endfor %}
-{% endif %}}
+{% endif %}
