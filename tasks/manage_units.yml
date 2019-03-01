@@ -1,5 +1,57 @@
 ---
-- name: Configure Celery systemd service unit
-  template: src=celery.service.j2 dest="/etc/systemd/system/{{item.name}}.service"
-  notify: restart celery services
+
+- name: Link Service Unit
+  file:
+    src: "{{celery_env_dir}}/{{item.name}}.service"
+    dest: "/etc/systemd/system/{{item.name}}.service"
+    owner: root
+    group: root
+    state: link
+  with_items: "{{celery_services}}"
+
+- name: Get units configs
+  find:
+    path: "{{celery_env_dir}}/"
+    pattern: '^.*?\.service$'
+    use_regex: yes
+  register: service_configs
+  changed_when: false
+
+- name: Set file list
+  set_fact:
+    unmanaged_configs: "{{(service_configs.files|map(attribute='path')|map('basename')|map('replace', '.service','')|list)|reject('in', celery_services|map(attribute='name')|list)|list}}"
+  changed_when: false
+
+- name: Stop Unmanaged Service
+  systemd:
+    name: "{{item}}.service"
+    state: stopped
+  with_items: "{{unmanaged_configs}}"
+
+- name: Remove Unmanaged Services
+  file:
+    dest: "/etc/systemd/system/{{item}}.service"
+    owner: root
+    group: root
+    state: absent
+  register: removed_services
+  with_items: "{{unmanaged_configs}}"
+
+- name: Detect Changes
+  command: /bin/true
+  register: celery_services_state
+  when: item.changed
+  with_items: "{{celery_states.results + removed_services.results}}"
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: celery_services_state is changed
+
+- name: Enable Service
+  systemd:
+    name: "{{item.name}}.service"
+    state: "{{item.state|default('stopped')}}"
+    enabled: yes
+  when: item.enabled|default(False)|bool
   with_items: "{{celery_services}}"
