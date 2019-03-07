@@ -1,5 +1,14 @@
 ---
+
 - name: Configure Celery EnvironmentFile
-  template: src=celery_env.j2 dest="{{celery_env_dir}}/{{item.name}}"
-  notify: "restart celery services"
+  template:
+    src: celery_env.j2
+    dest: "{{celery_env_dir}}/{{item.name}}"
+  with_items: "{{celery_services}}"
+
+- name: Configure Celery systemd service unit
+  template:
+    src: celery.service.j2
+    dest: "{{celery_env_dir}}/{{item.name}}.service"
+  register: "celery_states"
   with_items: "{{celery_services}}"
