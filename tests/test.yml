@@ -65,3 +65,22 @@
           command: echo stopping celery
           notify: stop celery services
       when: test_handlers is defined
+
+- hosts: localhost
+  remote_user: root
+  roles:
+    - { role: role_under_test, when: service_test is defined, celery_working_dir: /srv, celery_app: tasks, celery_user: celery, celery_services: []}
+  tasks:
+    - name: Fail To start Celery
+      systemd:
+        name: celeryd
+        state: stopped
+      register: failed_start
+      failed_when: false
+      when: service_test is defined
+
+    - name: Assert failure
+      assert:
+        that:
+          - "'Could not find the requested service celeryd' in failed_start.msg"
+      when: service_test is defined

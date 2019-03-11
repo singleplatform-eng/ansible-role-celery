@@ -67,6 +67,9 @@ printf ${green}"Testing Start Handlers and Service\n"${neutral}
 docker exec $container_id ansible-playbook /etc/ansible/roles/role_under_test/tests/$playbook -e 'test_handlers=True test_service=True'
 printf ${green}"Handlers and Service test passed\n"${neutra}
 
+printf ${green}"Testing Service Removal\n"${neutral}
+docker exec $container_id ansible-playbook /etc/ansible/roles/role_under_test/tests/$playbook -e 'service_test=True'
+printf ${green}"Service Removal test passed\n"${neutra}
 
 # Remove the Docker container (if configured).
 if [ "$cleanup" = true ]; then

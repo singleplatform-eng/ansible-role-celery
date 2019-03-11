@@ -46,7 +46,11 @@ An example of how to use the role
         celery_user: celery
         celery_services:
           - name: celeryd
+	    state: started
+	    enabled: yes
           - name: celery_beat
+	    state: stopped
+	    enabled: no
             environment:
               SINGLE_BEAT_IDENTIFIER: celery-beat
               SINGLE_BEAT_LOCK_TIME: 300
