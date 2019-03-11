@@ -4,3 +4,8 @@
 {{k}}='{{v}}'
 {% endif %}
 {% endfor %}
+{% if item.multi is defined %}
+CELERY_MULTI_START='multi start'
+CELERY_MULTI_STOP='multi stop'
+CELERY_MULTI_RESTART='multi restart'
+{% endif %}

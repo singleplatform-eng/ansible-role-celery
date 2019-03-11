@@ -3,14 +3,14 @@
   systemd:
     name: "{{item.name}}.service"
     state: started
-    enabled: "{{item.enable|default(no)}}"
+    enabled: "{{item.enable|default('no')}}"
   with_items: "{{celery_services}}"
 
 - name: "restart celery services"
   systemd:
     name: "{{item.name}}.service"
     state: restarted
-    enabled: "{{item.enable|default(no)}}"
+    enabled: "{{item.enable|default('no')}}"
   with_items: "{{celery_services}}"
 
 - name: "stop celery services"
