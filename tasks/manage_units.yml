@@ -47,11 +47,3 @@
   systemd:
     daemon_reload: yes
   when: celery_services_state is changed
-
-- name: Enable Service
-  systemd:
-    name: "{{item.name}}.service"
-    state: "{{item.state|default('stopped')}}"
-    enabled: yes
-  when: item.enabled|default(False)|bool
-  with_items: "{{celery_services}}"
