@@ -11,45 +11,30 @@ Group={{celery_user}}
 EnvironmentFile={{celery_env_dir}}/{{item.name}}
 WorkingDirectory={{celery_working_dir}}
 ExecStart=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_START} ${CELERYD_NODES} \
-  -A ${CELERY_APP} ${CELERYD_OPTS}{% if item.celeryd_logfile is defined or item.celerybeat_logfile is defined or item.celeryd_pidfile is defined or item.celerybeat_pidfile is defined %} \
+  -A ${CELERY_APP} ${CELERYD_OPTS}{% if item.celery_extra_args is defined or item.celery_pidfile is defined %} \
 {% else %}'
 {% endif %}
-{% if item.celeryd_logfile is defined %}
-  --logfile={{item.celeryd_logfile}} --loglevel={{item.celeryd_loglevel}} \
+{% if item.celery_extra_args is defined %}
+  {{item.celery_extra_args}} \
 {% endif %}
-{% if item.celerybeat_logfile is defined %}
-  --logfile={{item.celerybeat_logfile}} --loglevel={{item.celerybeat_loglevel}} \
+{% if item.celery_pidfile is defined %}
+  --pidfile={{item.celery_pidfile}}'
 {% endif %}
-{% if item.celeryd_pidfile is defined %}
-  --pidfile={{item.celeryd_pidfile}}'
-{% endif %}
-{% if item.celerybeat_pidfile is defined %}
-  --pidfile={{item.celerybeat_pidfile}}'
-{% endif %}
-ExecStop=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_STOP} ${CELERYD_NODES}{% if item.celeryd_pidfile is defined or item.celerybeat_pidfile is defined %} \
+ExecStop=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_STOP} ${CELERYD_NODES}{% if item.celery_pidfile is defined %} \
 {% else %}'
 {% endif %}
-{% if item.celeryd_pidfile is defined %}
-  --pidfile={{item.celeryd_pidfile}}'
-{% endif %}
-{% if item.celerybeat_pidfile is defined %}
-  --pidfile={{item.celerybeat_pidfile}}'
+{% if item.celery_pidfile is defined %}
+  --pidfile={{item.celery_pidfile}}'
 {% endif %}
 ExecReload=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_RESTART} ${CELERYD_NODES} \
-  -A ${CELERY_APP} ${CELERYD_OPTS}{% if item.celeryd_logfile is defined or item.celerybeat_logfile is defined or item.celeryd_pidfile is defined or item.celerybeat_pidfile is defined %} \
+  -A ${CELERY_APP} ${CELERYD_OPTS}{% if item.celery_extra_args is defined or item.celery_pidfile is defined %} \
 {% else %}'
 {% endif %}
-{% if item.celeryd_logfile is defined %}
-  --logfile={{item.celeryd_logfile}} --loglevel={{item.celeryd_loglevel}} \
+{% if item.celery_extra_args is defined %}
+  {{item.celery_extra_args}} \
 {% endif %}
-{% if item.celerybeat_logfile is defined %}
-  --logfile={{item.celerybeat_logfile}} --logfile={{item.celerybeat_loglevel}} \
-{% endif %}
-{% if item.celeryd_pidfile is defined %}
-  --pidfile={{item.celeryd_pidfile}}'
-{% endif %}
-{% if item.celerybeat_pidfile is defined %}
-  --pidfile={{item.celerybeat_pidfile}}'
+{% if item.celery_pidfile is defined %}
+  --pidfile={{item.celery_pidfile}}'
 {% endif %}
 
 [Install]
