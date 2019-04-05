@@ -20,6 +20,7 @@ ExecStart=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_START} ${CELERYD_NODES} \
 {% if item.celery_pidfile is defined %}
   --pidfile={{item.celery_pidfile}}'
 {% endif %}
+{% if item.multi is defined -%}
 ExecStop=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_STOP} ${CELERYD_NODES}{% if item.celery_pidfile is defined %} \
 {% else %}'
 {% endif %}
@@ -35,6 +36,7 @@ ExecReload=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_RESTART} ${CELERYD_NODES} \
 {% endif %}
 {% if item.celery_pidfile is defined %}
   --pidfile={{item.celery_pidfile}}'
+{% endif %}
 {% endif %}
 
 [Install]
