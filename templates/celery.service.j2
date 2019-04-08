@@ -10,33 +10,10 @@ User={{celery_user}}
 Group={{celery_user}}
 EnvironmentFile={{celery_env_dir}}/{{item.name}}
 WorkingDirectory={{celery_working_dir}}
-ExecStart=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_START} ${CELERYD_NODES} \
-  -A ${CELERY_APP} ${CELERYD_OPTS}{% if item.celery_extra_args is defined or item.celery_pidfile is defined %} \
-{% else %}'
-{% endif %}
-{% if item.celery_extra_args is defined %}
-  {{item.celery_extra_args}} \
-{% endif %}
-{% if item.celery_pidfile is defined %}
-  --pidfile={{item.celery_pidfile}}'
-{% endif %}
+ExecStart=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_START} ${CELERYD_NODES} -A ${CELERY_APP} ${CELERYD_OPTS}'
 {% if item.multi is defined -%}
-ExecStop=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_STOP} ${CELERYD_NODES}{% if item.celery_pidfile is defined %} \
-{% else %}'
-{% endif %}
-{% if item.celery_pidfile is defined %}
-  --pidfile={{item.celery_pidfile}}'
-{% endif %}
-ExecReload=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_RESTART} ${CELERYD_NODES} \
-  -A ${CELERY_APP} ${CELERYD_OPTS}{% if item.celery_extra_args is defined or item.celery_pidfile is defined %} \
-{% else %}'
-{% endif %}
-{% if item.celery_extra_args is defined %}
-  {{item.celery_extra_args}} \
-{% endif %}
-{% if item.celery_pidfile is defined %}
-  --pidfile={{item.celery_pidfile}}'
-{% endif %}
+ExecStop=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_STOP} ${CELERYD_NODES}'
+ExecReload=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_RESTART} ${CELERYD_NODES} -A ${CELERY_APP} ${CELERYD_OPTS}'
 {% endif %}
 
 [Install]
