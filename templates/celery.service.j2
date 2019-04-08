@@ -12,7 +12,7 @@ EnvironmentFile={{celery_env_dir}}/{{item.name}}
 WorkingDirectory={{celery_working_dir}}
 ExecStart=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_START} ${CELERYD_NODES} -A ${CELERY_APP} ${CELERYD_OPTS}'
 {% if item.multi is defined -%}
-ExecStop=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_STOP} ${CELERYD_NODES}'
+ExecStop=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_STOP} ${CELERYD_NODES} ${CELERYD_OPTS}'
 ExecReload=/bin/sh -c '${CELERY_BIN} ${CELERY_MULTI_RESTART} ${CELERYD_NODES} -A ${CELERY_APP} ${CELERYD_OPTS}'
 {% endif %}
 
