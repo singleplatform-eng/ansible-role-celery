@@ -6,6 +6,9 @@ After=network.target
 {% if item.multi is defined -%}
 Type=forking
 {% endif %}
+{% if item.restart is defined -%}
+Restart={{item.restart}}
+{% endif %}
 User={{celery_user}}
 Group={{celery_user}}
 EnvironmentFile={{celery_env_dir}}/{{item.name}}
