@@ -9,6 +9,9 @@ Type=forking
 {% if item.restart is defined -%}
 Restart={{item.restart}}
 {% endif %}
+{% if item.timeoutstopsec is defined -%}
+TimeoutStopSec={{item.timeoutstopsec}}
+{% endif %}
 User={{celery_user}}
 Group={{celery_user}}
 EnvironmentFile={{celery_env_dir}}/{{item.name}}
