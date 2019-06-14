@@ -1,7 +1,7 @@
 {{ansible_managed}}
 {% for k, v in (celeryd_default_env|combine(item.environment|default({}))).items()|sort %}
 {% if '__omit_place_holder__' not in v|string %}
-{{k}}='{{v}}'
+{{k}}={{v}}
 {% endif %}
 {% endfor %}
 {% if item.multi is defined %}
