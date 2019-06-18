@@ -25,7 +25,7 @@ celery_app
 celery_user
 celery_services
 ```
-celery_services should be a dict that contains the name of the service and any environment variables necessary in addition to {{celeryd_default_env}}. The template merges the two dictionaries if additional environment variables are defined.
+celery_services should be a dict that contains the name of the service and any environment variables necessary in addition to {{celeryd_default_env}}. The template merges the two dictionaries if additional environment variables are defined. Note that quotes are not explicitly included in the EnvironmentFile template, so if quotes are needed they should be explicitly defined.
 
 Dependencies
 ------------
