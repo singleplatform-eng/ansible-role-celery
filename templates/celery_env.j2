@@ -9,3 +9,8 @@ CELERY_MULTI_START='multi start'
 CELERY_MULTI_STOP='multi stop'
 CELERY_MULTI_RESTART='multi restart'
 {% endif %}
+{% if service_global_env is defined %}
+{% for k, v in service_global_env.items()|sort %}
+{{k}}={{v}}
+{% endfor %}
+{% endif %}

@@ -27,6 +27,8 @@ celery_services
 ```
 celery_services should be a dict that contains the name of the service and any environment variables necessary in addition to {{celeryd_default_env}}. The template merges the two dictionaries if additional environment variables are defined. Note that quotes are not explicitly included in the EnvironmentFile template, so if quotes are needed they should be explicitly defined.
 
+In addition, since systemd units are only capable of reading a single EnvironmentFile, if global Environment Variables are for both celery and non-celery service units - you may optionally define a variable "service_global_env" dictionary of those Environment Variables that will be additionally appended to the Celery Systemd Service Unit.
+
 Dependencies
 ------------
 Python2.7+
