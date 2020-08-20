@@ -22,3 +22,11 @@
     owner: "{{celery_user}}"
     group: "{{celery_user}}"
     mode: 0755
+
+- name: Ensure Celery Run Dirs persists after reboot
+  template:
+    src: celery_tmpfiles.j2
+    dest: /etc/tmpfiles.d/celery.conf
+    owner: root
+    group: root
+    mode: 0644
