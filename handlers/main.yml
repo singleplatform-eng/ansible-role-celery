@@ -5,6 +5,7 @@
     state: started
     enabled: "{{item.enable|default('no')}}"
   with_items: "{{celery_services}}"
+  listen: "start application"
 
 - name: "restart celery services"
   systemd:
@@ -12,9 +13,11 @@
     state: restarted
     enabled: "{{item.enable|default('no')}}"
   with_items: "{{celery_services}}"
+  listen: "restart application"
 
 - name: "stop celery services"
   systemd:
     name: "{{item.name}}.service"
     state: stopped
   with_items: "{{celery_services}}"
+  listen: "stop application"
