@@ -5,6 +5,7 @@
     state: started
     enabled: "{{item.enable|default('no')}}"
   with_items: "{{celery_services}}"
+  when: celery_services | length > 0
   listen: "start application"
 
 - name: "restart celery services"
@@ -13,6 +14,7 @@
     state: restarted
     enabled: "{{item.enable|default('no')}}"
   with_items: "{{celery_services}}"
+  when: celery_services | length > 0
   listen: "restart application"
 
 - name: "stop celery services"
@@ -20,4 +22,5 @@
     name: "{{item.name}}.service"
     state: stopped
   with_items: "{{celery_services}}"
+  when: celery_services | length > 0
   listen: "stop application"
