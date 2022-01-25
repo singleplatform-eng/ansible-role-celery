@@ -3,6 +3,7 @@ Description=Celery Service
 After=network.target
 
 [Service]
+LimitNOFILE=infinity
 {% if item.multi is defined -%}
 Type=forking
 {% endif %}
